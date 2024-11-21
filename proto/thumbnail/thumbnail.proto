@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package thumbnail;
+
+option go_package = "katinaka.thumbnail;thumbnailv1";
+
+service Thumbnail {
+  rpc GetThumbnail (ThumbnailRequest) returns (ThumbnailResponse);
+  rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
+  rpc ListCachedItems(ListCachedItemsRequest) returns (ListCachedItemsResponse);
+}
+
+message ThumbnailRequest {
+  string video_url = 1;
+}
+
+message ThumbnailResponse {
+  bytes image_data = 1;  // Превью видео в виде байт
+  string cached_at = 2;  // Время кэширования
+}
+
+// TODO: возможная доп реализация
+
+message ClearCacheRequest {
+  bool all = 1;           // Флаг для очистки всего кэша
+  repeated string urls = 2; // Список URL для частичной очистки
+}
+
+message ClearCacheResponse {
+  int32 cleared_count = 1; // Количество удалённых записей
+}
+
+message ListCachedItemsRequest {}
+
+message ListCachedItemsResponse {
+  repeated CachedItem items = 1; // Список закэшированных объектов
+}
+
+message CachedItem {
+  string video_url = 1; // Ссылка на видео
+  string cached_at = 2; // Время кэширования
+  int32 size = 3;       // Размер данных в байтах
+}
