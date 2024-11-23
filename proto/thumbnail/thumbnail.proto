@@ -16,7 +16,8 @@ message ThumbnailRequest {
 
 message ThumbnailResponse {
   bytes image_data = 1;  // Превью видео в виде байт
-  string cached_at = 2;  // Время кэширования
+  string video_url = 2;
+  string cached_at = 3;  // Время кэширования
 }
 
 // TODO: возможная доп реализация
