@@ -6,8 +6,8 @@ option go_package = "katinaka.thumbnail;thumbnailv1";
 
 service Thumbnail {
   rpc GetThumbnail (ThumbnailRequest) returns (ThumbnailResponse);
-  rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
-  rpc ListCachedItems(ListCachedItemsRequest) returns (ListCachedItemsResponse);
+  //rpc ClearCache(ClearCacheRequest) returns (ClearCacheResponse);
+  //rpc ListCachedItems(ListCachedItemsRequest) returns (ListCachedItemsResponse);
 }
 
 message ThumbnailRequest {
@@ -17,11 +17,10 @@ message ThumbnailRequest {
 message ThumbnailResponse {
   bytes image_data = 1;  // Превью видео в виде байт
   string video_url = 2;
-  string cached_at = 3;  // Время кэширования
 }
 
 // TODO: возможная доп реализация
-
+/*
 message ClearCacheRequest {
   bool all = 1;           // Флаг для очистки всего кэша
   repeated string urls = 2; // Список URL для частичной очистки
@@ -42,3 +41,5 @@ message CachedItem {
   string cached_at = 2; // Время кэширования
   int32 size = 3;       // Размер данных в байтах
 }
+
+*/

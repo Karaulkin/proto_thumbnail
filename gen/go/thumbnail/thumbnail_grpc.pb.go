@@ -19,9 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Thumbnail_GetThumbnail_FullMethodName    = "/thumbnail.Thumbnail/GetThumbnail"
-	Thumbnail_ClearCache_FullMethodName      = "/thumbnail.Thumbnail/ClearCache"
-	Thumbnail_ListCachedItems_FullMethodName = "/thumbnail.Thumbnail/ListCachedItems"
+	Thumbnail_GetThumbnail_FullMethodName = "/thumbnail.Thumbnail/GetThumbnail"
 )
 
 // ThumbnailClient is the client API for Thumbnail service.
@@ -29,8 +27,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ThumbnailClient interface {
 	GetThumbnail(ctx context.Context, in *ThumbnailRequest, opts ...grpc.CallOption) (*ThumbnailResponse, error)
-	ClearCache(ctx context.Context, in *ClearCacheRequest, opts ...grpc.CallOption) (*ClearCacheResponse, error)
-	ListCachedItems(ctx context.Context, in *ListCachedItemsRequest, opts ...grpc.CallOption) (*ListCachedItemsResponse, error)
 }
 
 type thumbnailClient struct {
@@ -51,33 +47,11 @@ func (c *thumbnailClient) GetThumbnail(ctx context.Context, in *ThumbnailRequest
 	return out, nil
 }
 
-func (c *thumbnailClient) ClearCache(ctx context.Context, in *ClearCacheRequest, opts ...grpc.CallOption) (*ClearCacheResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ClearCacheResponse)
-	err := c.cc.Invoke(ctx, Thumbnail_ClearCache_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *thumbnailClient) ListCachedItems(ctx context.Context, in *ListCachedItemsRequest, opts ...grpc.CallOption) (*ListCachedItemsResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListCachedItemsResponse)
-	err := c.cc.Invoke(ctx, Thumbnail_ListCachedItems_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ThumbnailServer is the server API for Thumbnail service.
 // All implementations must embed UnimplementedThumbnailServer
 // for forward compatibility.
 type ThumbnailServer interface {
 	GetThumbnail(context.Context, *ThumbnailRequest) (*ThumbnailResponse, error)
-	ClearCache(context.Context, *ClearCacheRequest) (*ClearCacheResponse, error)
-	ListCachedItems(context.Context, *ListCachedItemsRequest) (*ListCachedItemsResponse, error)
 	mustEmbedUnimplementedThumbnailServer()
 }
 
@@ -90,12 +64,6 @@ type UnimplementedThumbnailServer struct{}
 
 func (UnimplementedThumbnailServer) GetThumbnail(context.Context, *ThumbnailRequest) (*ThumbnailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetThumbnail not implemented")
-}
-func (UnimplementedThumbnailServer) ClearCache(context.Context, *ClearCacheRequest) (*ClearCacheResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ClearCache not implemented")
-}
-func (UnimplementedThumbnailServer) ListCachedItems(context.Context, *ListCachedItemsRequest) (*ListCachedItemsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListCachedItems not implemented")
 }
 func (UnimplementedThumbnailServer) mustEmbedUnimplementedThumbnailServer() {}
 func (UnimplementedThumbnailServer) testEmbeddedByValue()                   {}
@@ -136,42 +104,6 @@ func _Thumbnail_GetThumbnail_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Thumbnail_ClearCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ClearCacheRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ThumbnailServer).ClearCache(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Thumbnail_ClearCache_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ThumbnailServer).ClearCache(ctx, req.(*ClearCacheRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Thumbnail_ListCachedItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListCachedItemsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ThumbnailServer).ListCachedItems(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Thumbnail_ListCachedItems_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ThumbnailServer).ListCachedItems(ctx, req.(*ListCachedItemsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Thumbnail_ServiceDesc is the grpc.ServiceDesc for Thumbnail service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -182,14 +114,6 @@ var Thumbnail_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetThumbnail",
 			Handler:    _Thumbnail_GetThumbnail_Handler,
-		},
-		{
-			MethodName: "ClearCache",
-			Handler:    _Thumbnail_ClearCache_Handler,
-		},
-		{
-			MethodName: "ListCachedItems",
-			Handler:    _Thumbnail_ListCachedItems_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
